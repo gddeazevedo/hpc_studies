@@ -32,22 +32,22 @@ int main(int argc, char* argv[]) {
 }
 
 void naive_add_arrays() {
-    double *pair_numbers = new double[SIZE];
+    double *even_numbers = new double[SIZE];
     double *odd_numbers = new double[SIZE];
     double *result = new double[SIZE];
 
     for (int i = 0; i < SIZE; i++) {
         double pair = static_cast<double>(i * 2);
         double odd  = static_cast<double>(i * 2 + 1); 
-        pair_numbers[i] = pair;
+        even_numbers[i] = pair;
         odd_numbers[i]  = odd;
     }
 
     for (int i = 0; i < SIZE; i++) {
-        result[i] = pair_numbers[i] + odd_numbers[i];
+        result[i] = even_numbers[i] + odd_numbers[i];
     }
 
-    delete[] pair_numbers;
+    delete[] even_numbers;
     delete[] odd_numbers;
     delete[] result;
 
@@ -55,26 +55,26 @@ void naive_add_arrays() {
 }
 
 void intrinsics_add_arrays() {
-    double *pair_numbers = new double[SIZE];
+    double *even_numbers = new double[SIZE];
     double *odd_numbers = new double[SIZE];
 
     for (int i = 0; i < SIZE; i++) {
         double pair = static_cast<double>(i * 2);
         double odd  = static_cast<double>(i * 2 + 1); 
-        pair_numbers[i] = pair;
+        even_numbers[i] = pair;
         odd_numbers[i]  = odd;
     }
 
     auto chunks = sizeof(__m512d) / sizeof(double);
 
     for (int i = 0; i < SIZE; i += chunks) {
-        __m512d vec_a = _mm512_loadu_pd(&pair_numbers[i]);
-        __m512d vec_b = _mm512_loadu_pd(&odd_numbers[i]);
-        __m512d vec_result = _mm512_add_pd(vec_a, vec_b);
-        _mm512_storeu_pd(&pair_numbers[i], vec_result);
+        __m512d vec_even = _mm512_loadu_pd(&even_numbers[i]);
+        __m512d vec_odd = _mm512_loadu_pd(&odd_numbers[i]);
+        __m512d vec_result = _mm512_add_pd(vec_even, vec_odd);
+        _mm512_storeu_pd(&even_numbers[i], vec_result);
     }
 
-    delete[] pair_numbers;
+    delete[] even_numbers;
     delete[] odd_numbers;
 
     std::cout << "Intrinsics addition completed." << std::endl;
