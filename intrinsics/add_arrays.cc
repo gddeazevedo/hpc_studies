@@ -34,7 +34,6 @@ int main(int argc, char* argv[]) {
 void naive_add_arrays() {
     double *even_numbers = new double[SIZE];
     double *odd_numbers = new double[SIZE];
-    double *result = new double[SIZE];
 
     for (int i = 0; i < SIZE; i++) {
         double pair = static_cast<double>(i * 2);
@@ -44,12 +43,11 @@ void naive_add_arrays() {
     }
 
     for (int i = 0; i < SIZE; i++) {
-        result[i] = even_numbers[i] + odd_numbers[i];
+        even_numbers[i] = even_numbers[i] + odd_numbers[i];
     }
 
     delete[] even_numbers;
     delete[] odd_numbers;
-    delete[] result;
 
     std::cout << "Naive addition completed." << std::endl;
 }
