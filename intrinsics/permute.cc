@@ -14,6 +14,5 @@ int main() {
         printf("Element %d: %f\n", i, val);
     }
 
-
     return 0;
 }
